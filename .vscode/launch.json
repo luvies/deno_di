@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    // {
+    //   "name": "Launch Deno",
+    //   "type": "node",
+    //   "request": "launch",
+    //   "cwd": "${workspaceFolder}",
+    //   "runtimeExecutable": "deno",
+    //   "runtimeArgs": ["run", "--inspect-brk", "-A", "main.ts"],
+    //   "port": 9229,
+    //   "outputCapture": "std"
+    // }
+  ]
+}

@@ -1,0 +1,15 @@
+name: Build & Test
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: denolib/setup-deno@master
+      - name: Build
+        run: deno cache --reload -c ./tsconfig.json
+      - name: Test
+        run: deno test -c ./tsconfig.json
