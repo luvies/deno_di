@@ -292,6 +292,62 @@ Deno.test({
 });
 
 Deno.test({
+  name: "dynamic transient binding",
+  fn() {
+    let i = 0;
+    const fn = () => i++;
+
+    @Service()
+    class A {
+      constructor(@Inject("fn") public count: number) {}
+    }
+
+    const svs = initServices((s) => {
+      s.addTransientDynamic("fn", fn);
+      s.addTransient(A);
+    });
+
+    const a1 = svs.get(A);
+    assert(a1 instanceof A);
+    assert(a1.count === 0);
+    assert(i === 1);
+
+    const a2 = svs.get(A);
+    assert(a2 instanceof A);
+    assert(a2.count === 1);
+    assert(i === 2 as any);
+  },
+});
+
+Deno.test({
+  name: "dynamic singleton binding",
+  fn() {
+    let i = 0;
+    const fn = () => i++;
+
+    @Service()
+    class A {
+      constructor(@Inject("fn") public count: number) {}
+    }
+
+    const svs = initServices((s) => {
+      s.addSingletonDynamic("fn", fn);
+      s.addTransient(A);
+    });
+
+    const a1 = svs.get(A);
+    assert(a1 instanceof A);
+    assert(a1.count === 0);
+    assert(i === 1);
+
+    const a2 = svs.get(A);
+    assert(a2 instanceof A);
+    assert(a2.count === 0);
+    assert(i === 1);
+  },
+});
+
+Deno.test({
   name: "deep complex nested",
   fn() {
     // Interfaces
