@@ -257,7 +257,7 @@ If you have multiple `ServiceCollection`s that you want to resolve a service fro
 
 A use-case for this is for something like a web-framework. When the framework loads, it would add all the controllers, middleware, and data service to a main service collection. Some of these services may depend on other services that contain request information. As multiple requests may be handled in parallel, it is not ideal to add the request-only services to the main collection, so you can instead create a second, request-only, collection, and use the `ServiceMultiCollection` to allow the main services and request-only services to resolve dependencies from each other.
 
-Dependency resolution in this class can happen bi-directionally, meaning that each container may depend on services from the other (as long as it does not cause a circular dependency) without issue. However, services are resolve from collections in the order the collection was added to the multi-collection. This means that if you add collection `X` and _then_ collection `Y`, which both have service `A`, then `A` will be resolved from collection `X`, not `Y`, as it was added first. This allows a form a priority between collections.
+Dependency resolution in this class can happen bi-directionally, meaning that each container may depend on services from the other (as long as it does not cause a circular dependency) without issue. However, services are resolved from collections in the order the collections were added to the multi-collection. This means that if you add collection `X` and _then_ collection `Y`, which both have service `A`, then `A` will be resolved from collection `X`, not `Y`, as it was added first. This allows a form a priority between collections.
 
 Example:
 
