@@ -15,6 +15,7 @@ This is a work in-progress, and breaking changes may be made without warning.
   - [Dynamic Services](#Dynamic-Services)
   - [Static Services](#Static-Services)
   - [Lifetimes](#Lifetimes)
+  - [Service Multi-Collection](#Service-Multi-Collection)
 - [Setup](#Setup)
 
 ## API
