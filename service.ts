@@ -69,4 +69,4 @@ export interface StaticService extends GenericService<Kind.Static> {
 
 export type Service = NewableService | DynamicService | StaticService;
 
-export type ServiceCollection = Map<ServiceIdent<any>, Service>;
+export type ServiceStore = Map<ServiceIdent<any>, Service>;

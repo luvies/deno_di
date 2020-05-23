@@ -6,13 +6,13 @@ import {
   Lifetime,
   Newable,
   Service,
-  ServiceCollection,
   ServiceIdent,
+  ServiceStore,
   StaticValue,
 } from "./service.ts";
 
-export class ServiceContainer {
-  private _services: ServiceCollection = new Map();
+export class ServiceCollection {
+  private _services: ServiceStore = new Map();
 
   public get<T>(ident: ServiceIdent<T>): T {
     return resolve(ident, [this._services]);

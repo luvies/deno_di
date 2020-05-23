@@ -1,2 +1,2 @@
 export * from "./decorators.ts";
-export * from "./service_container.ts";
+export * from "./service_collection.ts";

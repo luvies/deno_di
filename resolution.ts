@@ -6,15 +6,15 @@ import {
   Lifetime,
   LifetimedService,
   Service,
-  ServiceCollection,
   ServiceIdent,
+  ServiceStore,
 } from "./service.ts";
 
 function tryGet<T>(
   ident: ServiceIdent<T>,
-  serviceCollections: ServiceCollection[],
+  serviceStores: ServiceStore[],
 ): Service | undefined {
-  for (const serviceMap of serviceCollections) {
+  for (const serviceMap of serviceStores) {
     const service = serviceMap.get(ident);
 
     if (service) {
@@ -26,7 +26,7 @@ function tryGet<T>(
 }
 
 interface Context {
-  services: ServiceCollection;
+  services: ServiceStore;
   cache: Map<ServiceIdent<any>, any | undefined>;
 }
 
@@ -84,10 +84,10 @@ function preventCircularGraph(
 function _resolve<T>(
   ident: ServiceIdent<T>,
   parents: ResolveParents,
-  serviceCollections: ServiceCollection[],
+  serviceStores: ServiceStore[],
   context: Context,
 ): T {
-  const service = tryGet(ident, serviceCollections);
+  const service = tryGet(ident, serviceStores);
 
   switch (service?.kind) {
     case Kind.Newable: {
@@ -115,7 +115,7 @@ function _resolve<T>(
             _resolve(
               argIdent,
               new Set([...parents, argIdent]),
-              serviceCollections,
+              serviceStores,
               context,
             ),
           );
@@ -132,7 +132,7 @@ function _resolve<T>(
             _resolve(
               propIdent,
               new Set([...parents, propIdent]),
-              serviceCollections,
+              serviceStores,
               context,
             ),
           );
@@ -169,12 +169,12 @@ function _resolve<T>(
 
 export function resolve<T>(
   ident: ServiceIdent<T>,
-  serviceCollections: ServiceCollection[],
+  serviceStores: ServiceStore[],
 ): T {
   return _resolve(
     ident,
     new Set(),
-    serviceCollections,
+    serviceStores,
     { services: new Map(), cache: new Map() },
   );
 }

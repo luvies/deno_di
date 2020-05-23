@@ -1,11 +1,11 @@
 import "https://cdn.pika.dev/@abraham/reflection@^0.7.0";
 import { assert, assertThrows } from "https://deno.land/std/testing/asserts.ts";
-import { Inject, Service, ServiceContainer } from "./mod.ts";
+import { Inject, Service, ServiceCollection } from "./mod.ts";
 
 function initServices(
-  initFn: (services: ServiceContainer) => void,
-): ServiceContainer {
-  const services = new ServiceContainer();
+  initFn: (services: ServiceCollection) => void,
+): ServiceCollection {
+  const services = new ServiceCollection();
   initFn(services);
   return services;
 }
@@ -268,7 +268,7 @@ Deno.test({
     });
 
     assertThrows(() => {
-      const svs = new ServiceContainer();
+      const svs = new ServiceCollection();
 
       svs.get("unknown");
     });
