@@ -35,6 +35,9 @@ export class ServiceCollection {
    * The service will be added with a transient lifetime.
    */
   public addTransient<T>(ident: ServiceIdent<T>, impl: Newable<T>): void;
+  /**
+   * @ignore
+   */
   public addTransient<T>(ident: ServiceIdent<T>, impl?: Newable<T>) {
     this._addNewable(ident, newableImpl(ident, impl), Lifetime.Transient);
   }
@@ -49,6 +52,9 @@ export class ServiceCollection {
    * The service will be added with a scoped lifetime.
    */
   public addScoped<T>(ident: ServiceIdent<T>, impl: Newable<T>): void;
+  /**
+   * @ignore
+   */
   public addScoped<T>(ident: ServiceIdent<T>, impl?: Newable<T>) {
     this._addNewable(ident, newableImpl(ident, impl), Lifetime.Scoped);
   }
@@ -63,6 +69,9 @@ export class ServiceCollection {
    * The service will be added with a singleton lifetime.
    */
   public addSingleton<T>(ident: ServiceIdent<T>, impl: Newable<T>): void;
+  /**
+   * @ignore
+   */
   public addSingleton<T>(ident: ServiceIdent<T>, impl?: Newable<T>) {
     this._addNewable(ident, newableImpl(ident, impl), Lifetime.Singleton);
   }
