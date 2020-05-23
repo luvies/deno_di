@@ -9,6 +9,9 @@ import {
 } from "./metadata.ts";
 import { isServiceIdent, ServiceIdent } from "./service.ts";
 
+/**
+ * Declares a class as a service that can be used with dependency injection.
+ */
 export function Service(): ClassDecorator {
   return (target: Function) => {
     if (isClassTagged(target)) {
@@ -19,6 +22,16 @@ export function Service(): ClassDecorator {
   };
 }
 
+/**
+ * Used to declare a propery for injection, or to specify the service identifier
+ * for a property or constructor parameter.
+ * 
+ * @remarks
+ * All injection properties need this decorator with or without the identifier.
+ *
+ * If an identifier is not given, then the type of the property or parameter
+ * must exist at runtime (i.e. it must be a class or abstract class).
+ */
 export function Inject<T = any>(
   ident?: ServiceIdent<T>,
 ) {

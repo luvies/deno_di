@@ -21,7 +21,7 @@ This is a work in-progress, and breaking changes may be made without warning.
 
 You can view the complete API using [docs.deno.land](https://doc.deno.land/https/deno.land/x/di/mod.ts).
 
-Before you can use this modules, follow the [setup](#setup) section, as this module relies on decorators and TypeScript's metadata system.
+Before you can use this module, follow the [setup](#setup) section, as this module relies on decorators and TypeScript's metadata system.
 
 ### Services
 
@@ -248,7 +248,50 @@ Scoped services are reused for the duration of the request. This means, using th
 
 #### Singleton
 
-Singleton service are only ever created once, and this instance is reused throughout the entire lifetime of the `ServiceCollection`. Using the previous example again, but with `D` being scoped, everytime you requested `A`, the instance of `D` is reused and the same across all requests.
+Singleton service are only ever created once, and this instance is reused throughout the entire lifetime of the `ServiceCollection`. Using the previous example again, but with `D` being a singleton, everytime you requested `A`, the instance of `D` is reused within and across requests.
+
+### Service Multi-Collection
+
+If you have multiple `ServiceCollection`s that you want to resolve a service from where dependencies may only exist in one or a subset, then you can use the `ServiceMultiCollection` class to treat all the `ServiceCollection`s as a single `ServiceCollection`.
+
+A use-case for this is for something like a web-framework. When the framework loads, it would add all the controllers, middleware, and data service to a main service collection. Some of these services may depend on other services that contain request information. As multiple requests may be handled in parallel, it is not ideal to add the request-only services to the main collection, so you can instead create a second, request-only, collection, and use the `ServiceMultiCollection` to allow the main services and request-only services to resolve dependencies from each other.
+
+Dependency resolution in this class can happen bi-directionally, meaning that each container may depend on services from the other (as long as it does not cause a circular dependency) without issue. However, services are resolve from collections in the order the collection was added to the multi-collection. This means that if you add collection `X` and _then_ collection `Y`, which both have service `A`, then `A` will be resolved from collection `X`, not `Y`, as it was added first. This allows a form a priority between collections.
+
+Example:
+
+```ts
+// Services.
+@Service()
+class A {}
+
+@Service()
+class B {
+  constructor(private a: A) {}
+}
+
+@Service()
+class C {
+  constructor(private b: B) {}
+}
+
+// Service collection setup
+const collection1 = new ServiceCollection();
+collection1.addTransient(A);
+collection1.addTransient(C);
+
+const collection2 = new ServiceCollection();
+collection2.addTransient(B);
+
+// Multi-collection setup
+const multiCollection = new ServiceMultiCollection(collection1, collection2);
+
+// Resolve services across collections.
+const c = multiCollection.get(C);
+assert(c instanceof C);
+assert(c.b instanceof B);
+assert(c.b.a instanceof A);
+```
 
 ## Setup
 
