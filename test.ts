@@ -213,17 +213,36 @@ Deno.test({
   fn() {
     const aName = "a";
     const bSym = Symbol("b");
+    const cSym = Symbol("c");
+
+    interface IA {
+      propA: string;
+    }
+
+    interface IB {
+      propB: string;
+    }
+
+    interface IC {
+      propC: string;
+    }
 
     @Service()
-    class A {}
+    class A implements IA {
+      public propA = "prop A";
+    }
 
     @Service()
-    class B {}
+    class B implements IB {
+      public propB = "prop B";
+    }
 
     @Service()
-    class C {
+    class C implements IC {
       @Inject(aName)
       public a!: A;
+
+      public propC = "prop C";
 
       constructor(
         @Inject(bSym) public b: B,
@@ -231,15 +250,18 @@ Deno.test({
     }
 
     const svs = initServices((s) => {
-      s.addTransient(aName, A);
-      s.addTransient(bSym, B);
-      s.addTransient(C);
+      s.addTransient<IA>(aName, A);
+      s.addTransient<IB>(bSym, B);
+      s.addTransient<IC>(cSym, C);
     });
 
-    const c = svs.get(C);
+    const c = svs.get<IC>(cSym);
     assert(c instanceof C);
+    assert(c.propC === "prop C");
     assert(c.a instanceof A);
+    assert(c.a.propA === "prop A");
     assert(c.b instanceof B);
+    assert(c.b.propB === "prop B");
   },
 });
 
