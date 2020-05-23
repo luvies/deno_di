@@ -288,6 +288,12 @@ Deno.test({
 
       svs.get(B);
     });
+
+    assertThrows(() => {
+      class A {}
+
+      initServices((s) => s.addTransient(A));
+    });
   },
 });
 
@@ -344,6 +350,27 @@ Deno.test({
     assert(a2 instanceof A);
     assert(a2.count === 0);
     assert(i === 1);
+  },
+});
+
+Deno.test({
+  name: "static binding",
+  fn() {
+    const val = "test value";
+
+    @Service()
+    class A {
+      constructor(@Inject("val") public v: string) {}
+    }
+
+    const svs = initServices((s) => {
+      s.addStatic("val", val);
+      s.addTransient(A);
+    });
+
+    const a = svs.get(A);
+    assert(a instanceof A);
+    assert(a.v === val);
   },
 });
 

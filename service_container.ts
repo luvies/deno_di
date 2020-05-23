@@ -1,3 +1,4 @@
+import { isClassTagged } from "./metadata.ts";
 import { resolve } from "./resolution.ts";
 import {
   DynamicValue,
@@ -60,6 +61,12 @@ export class ServiceContainer {
     impl: Newable<T>,
     lifetime: Lifetime,
   ) {
+    if (!isClassTagged(impl)) {
+      throw new Error(
+        `Class ${impl.name} has not been decorated with @Service`,
+      );
+    }
+
     this._add({
       kind: Kind.Newable,
       ident,
