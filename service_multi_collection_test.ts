@@ -4,7 +4,7 @@ import { Service, ServiceCollection } from "./mod.ts";
 import { ServiceMultiCollection } from "./service_multi_collection.ts";
 
 Deno.test({
-  name: "can resolve from collections in order",
+  name: "multi-collection can resolve from collections in order",
   fn() {
     @Service()
     class A {}
@@ -33,7 +33,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: "can resolve bi-directionally",
+  name: "multi-collection can resolve bi-directionally",
   fn() {
     @Service()
     class A {}

@@ -209,7 +209,7 @@ Deno.test({
 });
 
 Deno.test({
-  name: "explict types function",
+  name: "explict types functionality",
   fn() {
     const aName = "a";
     const bSym = Symbol("b");
@@ -266,56 +266,151 @@ Deno.test({
 });
 
 Deno.test({
-  name: "validation",
+  name: "validation - double Service decorator",
   fn() {
-    assertThrows(() => {
-      @Service()
-      @Service()
-      class A {}
-    });
+    assertThrows(
+      () => {
+        @Service()
+        @Service()
+        class A {}
+      },
+      undefined,
+      "multiple times",
+    );
+  },
+});
 
-    assertThrows(() => {
-      @Service()
-      class A {
-        constructor(@Inject() a: object) {}
-      }
-    });
+Deno.test({
+  name: "validation - bad constructor type",
+  fn() {
+    assertThrows(
+      () => {
+        @Service()
+        class A {
+          constructor(@Inject() a: object) {}
+        }
+      },
+      undefined,
+      "Cannot determine type of parameter",
+    );
+  },
+});
 
-    assertThrows(() => {
-      @Service()
-      class A {
-        @Inject()
-        public a!: object;
-      }
-    });
+Deno.test({
+  name: "validation - bad property type",
+  fn() {
+    assertThrows(
+      () => {
+        @Service()
+        class A {
+          @Inject()
+          public a!: object;
+        }
+      },
+      undefined,
+      "Cannot determine type of property",
+    );
+  },
+});
 
-    assertThrows(() => {
-      const svs = new ServiceCollection();
+Deno.test({
+  name: "validation - unknown service",
+  fn() {
+    assertThrows(
+      () => {
+        const svs = new ServiceCollection();
 
-      svs.get("unknown");
-    });
+        svs.get("unknown");
+      },
+      undefined,
+      "does not exist in container",
+    );
+  },
+});
 
-    assertThrows(() => {
-      @Service()
-      class A {}
+Deno.test({
+  name: "validation - missing dependency",
+  fn() {
+    assertThrows(
+      () => {
+        @Service()
+        class A {}
 
-      @Service()
-      class B {
-        constructor(public a: A) {}
-      }
+        @Service()
+        class B {
+          constructor(public a: A) {}
+        }
 
-      const svs = initServices((s) => {
-        s.addTransient(B);
-      });
+        const svs = initServices((s) => {
+          s.addTransient(B);
+        });
 
-      svs.get(B);
-    });
+        svs.get(B);
+      },
+      undefined,
+      "does not exist in container",
+    );
+  },
+});
 
-    assertThrows(() => {
-      class A {}
+Deno.test({
+  name: "validation - missing Service decorator",
+  fn() {
+    assertThrows(
+      () => {
+        class A {}
 
-      initServices((s) => s.addTransient(A));
-    });
+        initServices((s) => s.addTransient(A));
+      },
+      undefined,
+      "has not been decorated with @Service",
+    );
+  },
+});
+
+Deno.test({
+  name: "validation - cyclic dependency",
+  fn() {
+    assertThrows(
+      () => {
+        const types = {
+          a: Symbol("a"),
+          b: Symbol("b"),
+          c: Symbol("c"),
+        };
+
+        @Service()
+        class A {
+          constructor(
+            @Inject(types.c) public c: any,
+          ) {}
+        }
+
+        @Service()
+        class B {
+          constructor(
+            @Inject(types.a) public a: A,
+          ) {}
+        }
+
+        @Service()
+        class C {
+          constructor(
+            @Inject(types.b) public b: B,
+          ) {}
+        }
+
+        const svs = initServices((s) => {
+          s.addTransient(types.a, A);
+          s.addTransient(types.b, B);
+          s.addTransient(types.c, C);
+        });
+
+        svs.get(types.c);
+      },
+      undefined,
+      "Circular dependency detected",
+    );
   },
 });
 
