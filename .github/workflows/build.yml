@@ -9,6 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: denolib/setup-deno@master
+        with:
+          deno-version: 1.1.0
       - name: Build
         run: deno cache --reload -c ./tsconfig.json ./mod.ts
       - name: Test
