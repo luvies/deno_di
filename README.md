@@ -6,6 +6,16 @@ A dependency injection (inversion of control) module for Deno.
 
 This is a work in-progress, and breaking changes may be made without warning.
 
+Available at:
+
+```
+https://deno.land/x/di
+```
+
+```
+https://nest.land/package/di
+```
+
 ## Contents
 
 - [API](#API)
