@@ -11,10 +11,18 @@ import {
   StaticValue,
 } from "./service.ts";
 
+export interface IServiceCollection {
+  /**
+   * Gets a service from the collection using the rest of the services in the
+   * collection to resolve the dependencies.
+   */
+  get<T>(ident: ServiceIdent<T>): T;
+}
+
 /**
  * A collection of services.
  */
-export class ServiceCollection {
+export class ServiceCollection implements IServiceCollection {
   private _services: ServiceStore = new Map();
 
   /**

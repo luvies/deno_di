@@ -1,12 +1,12 @@
 import { resolve } from "./resolution.ts";
 import { ServiceIdent, ServiceStore } from "./service.ts";
-import { ServiceCollection } from "./service_collection.ts";
+import { IServiceCollection, ServiceCollection } from "./service_collection.ts";
 
 /**
  * Provides a mechanism to allow resolution of services from multiple
  * collections as-if they were one.
  */
-export class ServiceMultiCollection {
+export class ServiceMultiCollection implements IServiceCollection {
   private _serviceCollections: Set<ServiceCollection>;
 
   public constructor(...serviceCollections: ServiceCollection[]) {
