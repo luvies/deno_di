@@ -3,5 +3,5 @@
   "description": "A dependency injection (DI/IoC/Inversion of Control) module",
   "stable": false,
   "files": ["*.ts", "README.md"],
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
