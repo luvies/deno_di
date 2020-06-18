@@ -18,15 +18,15 @@ https://nest.land/package/di
 
 ## Contents
 
-- [API](#API)
-  - [Services](#Services)
-  - [Newable Services](#Newable-Services)
-    - [Abstract Classes](#Abstract-Classes)
-  - [Dynamic Services](#Dynamic-Services)
-  - [Static Services](#Static-Services)
-  - [Lifetimes](#Lifetimes)
-  - [Service Multi-Collection](#Service-Multi-Collection)
-- [Setup](#Setup)
+- [API](#api)
+  - [Services](#services)
+  - [Newable Services](#newable-services)
+    - [Abstract Classes](#abstract-classes)
+  - [Dynamic Services](#dynamic-services)
+  - [Static Services](#static-services)
+  - [Lifetimes](#lifetimes)
+  - [Service Multi-Collection](#service-multi-collection)
+- [Setup](#setup)
 
 ## API
 
