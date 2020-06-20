@@ -1,0 +1,3 @@
+scripts:
+  test: deno test --config ./tsconfig.json
+  build: deno cache --reload -c ./tsconfig.json ./mod.ts
