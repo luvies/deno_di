@@ -1,6 +1,6 @@
 # Dependency Injection
 
-![Build & Test](https://github.com/luvies/deno_di/workflows/Build%20&%20Test/badge.svg)
+![Build & Test](https://github.com/luvies/deno_di/workflows/Build%20&%20Test/badge.svg) [![nest badge](https://nest.land/badge.svg)](https://nest.land/package/di)
 
 A dependency injection (inversion of control) module for Deno.
 
