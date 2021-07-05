@@ -46,7 +46,7 @@ export function Inject<T = any>(
       { prop: new Map(), param: new Map() };
 
     let cident: ServiceIdent<T> | undefined = ident;
-    if (typeof paramIndex !== "undefined") {
+    if (typeof paramIndex === "number") {
       if (typeof cident === "undefined") {
         const designParams = getClassParamTypes(tgt);
         const designType = designParams?.[paramIndex];
