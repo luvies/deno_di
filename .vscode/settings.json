@@ -5,6 +5,10 @@
   },
   "deno.enable": true,
   "[typescript]": {
-    "editor.defaultFormatter": "axetroy.vscode-deno"
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "deno.suggest.imports.hosts": {
+    "https://cdn.skypack.dev": false,
+    "https://deno.land": true
   }
 }

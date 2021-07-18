@@ -320,5 +320,5 @@ This modules requires the following options to be set in the tsconfig:
 You will also need to polyfill Reflect metadata. The recommended way is:
 
 ```ts
-import "https://cdn.pika.dev/@abraham/reflection@^0.7.0";
+import "https://cdn.skypack.dev/@abraham/reflection@0.8.0";
 ```

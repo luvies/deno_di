@@ -1,5 +1,8 @@
-import "https://cdn.pika.dev/@abraham/reflection@^0.7.0";
-import { assert, assertThrows } from "https://deno.land/std/testing/asserts.ts";
+import "https://cdn.skypack.dev/@abraham/reflection@0.8.0";
+import {
+  assert,
+  assertThrows,
+} from "https://deno.land/std@0.101.0/testing/asserts.ts";
 import { Inject, Service, ServiceCollection } from "./mod.ts";
 
 function initServices(
