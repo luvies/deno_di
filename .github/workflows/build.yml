@@ -14,7 +14,7 @@ jobs:
       - name: Install Velociraptor
         run: |
           deno install -qAn vr https://x.nest.land/velociraptor@1.0.1/cli.ts
-          echo "::add-path::$HOME/.deno/bin"
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH
       - name: Build
         run: vr build
       - name: Test

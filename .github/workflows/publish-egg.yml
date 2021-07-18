@@ -16,7 +16,7 @@ jobs:
       - name: Setup eggs CLI
         run: |
           deno install -Afq --unstable https://x.nest.land/eggs@0.3.8/eggs.ts
-          echo "::add-path::$HOME/.deno/bin"
+          echo "$HOME/.deno/bin" >> $GITHUB_PATH
       - name: Publish Egg to Nest.land
         run: |
           eggs link --key ${NEST_LAND_API_KEY}
